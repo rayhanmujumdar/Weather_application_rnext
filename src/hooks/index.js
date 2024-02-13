@@ -1,3 +1,4 @@
 import useWeatherData from './useWeatherData';
+import useLocalStorage from './useLocalStorage';
 
-export { useWeatherData };
+export { useWeatherData, useLocalStorage };

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import FavoriteListModal from '../components/Header/FavoriteListModal';
 import Favorites from '../components/Header/Favorites';
 import Header from '../components/Header/Header';
@@ -11,12 +11,13 @@ import { WeatherContext } from '../context';
 
 export default function WeatherPages() {
     const { loading } = useContext(WeatherContext);
+    const [showModal, setShowModal] = useState(false);
     return (
         <>
             <Header>
                 <SearchLocation />
-                <Favorites />
-                <FavoriteListModal />
+                <Favorites onShow={setShowModal} />
+                {showModal && <FavoriteListModal />}
             </Header>
             {loading.state ? (
                 <p>{loading.message}</p>
