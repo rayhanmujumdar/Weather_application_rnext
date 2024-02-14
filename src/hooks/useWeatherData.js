@@ -71,7 +71,7 @@ export default function useWeatherData() {
                 message: 'fetching with geolocation',
             };
         });
-        if (selectedLocation.latitude && selectedLocation.longitude) {
+        if (selectedLocation?.latitude && selectedLocation?.longitude) {
             fetchWeatherData(
                 selectedLocation.longitude,
                 selectedLocation.latitude
@@ -87,6 +87,6 @@ export default function useWeatherData() {
         return () => {
             ignore = true;
         };
-    }, [selectedLocation.latitude, selectedLocation.longitude]);
+    }, [selectedLocation?.latitude, selectedLocation?.longitude]);
     return { loading, error, weatherData };
 }

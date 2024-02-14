@@ -1,24 +1,28 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import heartRedIcon from '../../assets/heart-red.svg';
 import heartIcon from '../../assets/heart.svg';
 import { FavoriteContext, WeatherContext } from '../../context';
 export default function AddToFavorite() {
-    const { favorites, setFavorite } = useContext(FavoriteContext);
-    const { weatherData } = useContext(WeatherContext);
+    const { favorites, addToFavorite, removeFromFavorite } =
+        useContext(FavoriteContext);
+    const { weatherData, loading } = useContext(WeatherContext);
     const { location, longitude, latitude } = weatherData;
-    const [isFavorite, setIsFavorite] = useState(
-        favorites.some(value => value.location === location)
-    );
-    const handleFavorite = () => {
-        setIsFavorite(!isFavorite);
-        if (!isFavorite) {
-            setFavorite([...favorites, { location, longitude, latitude }]);
-        } else {
-            const filterWeatherData = favorites.filter(
-                favWeather => favWeather?.location !== location
+    const [isFavorite, setIsFavorite] = useState(false);
+    useEffect(() => {
+        if (location) {
+            setIsFavorite(
+                favorites.some(value => value?.location === location)
             );
-            setFavorite([...filterWeatherData]);
         }
+    }, [location]);
+    const handleFavorite = () => {
+        const found = favorites.some(value => value?.location === location);
+        if (!found) {
+            addToFavorite(location, longitude, latitude );
+        } else {
+            removeFromFavorite(location);
+        }
+        setIsFavorite(!isFavorite);
     };
     return (
         <div className="md:col-span-2">
